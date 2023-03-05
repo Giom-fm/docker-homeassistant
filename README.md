@@ -1,4 +1,4 @@
-# docker-service
+# docker-homeassistant
 
 
 ## ctl.sh
@@ -34,7 +34,7 @@ The following table gives an overview of which files must be adjusted.
 | EXAMPLE | EXAMPLE |
 
 ## Versioning of services and domain name settings
-The versioning of the services as well as the domain name settings are done via an *.env* file which is automatically read by docker-compose. For this, the *env.example* should be copied and adapted. It should be noted that no secrets should end up in the *.env*.
+The versioning of the services as well as the domain name settings are done via an *.env* file which is automatically read by dock.env copyer-compose. For this, the *env.example* should be copied and adapted. It should be noted that no secrets should end up in the *.env*.
 
 ## Environment variables
 Environment variables are created via a service specific file in the *env* folder. They do not contain any secrets and can therefore be pushed upstream.
