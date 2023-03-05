@@ -2,33 +2,15 @@ version: "3.5"
   
 services: 
 
-  SERVICE:
-    image: SERVICE_IMAGE:${PROMETHEUS_TAG}
-    container_name: SERVICE_NAME
-    depends_on:
-      - SERVICES
-    env_file:
-      - ./secrets/service.secrets.example
-    restart: unless-stopped
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:${HOMEASSISTANT_TAG}"
     volumes:
-      - ./volumes/SERVICE_NAME/data:/data
+      - ./volumes/homeassistant/config:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+    restart: unless-stopped
+    privileged: true
     expose:
-      - 9090
-    networks:
-      - SERVICE-local-net
-      - SERVICE-proxy-net
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.SERVICE.rule=Host(`${DOMAIN_NAME}`)"
-      - "traefik.http.routers.SERVICE.entrypoints=websecure"
-      - "traefik.http.routers.SERVICE.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.SERVICE.middlewares=SERVICE-hsts@docker"
-      - "traefik.http.middlewares.SERVICE-hsts.headers.customresponseheaders.Strict-Transport-Security=max-age=15552000; includeSubDomains"
-      - "traefik.docker.network=SERVICE-proxy-net"
-
-networks: 
-  SERVICE-local-net:
-    name: SERVICE-local-net
-  SERVICE-proxy-net:
-    external: 
-      name: SERVICE-proxy-net
+      - 8123
+    network_mode: host
